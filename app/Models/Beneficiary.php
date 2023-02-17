@@ -10,4 +10,11 @@ class Beneficiary extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'phone'];
+
+    #process
+    public function process()
+    {
+        return $this->belongsTo(Process::class, 'processe_id');
+    } // end of process
+
 }

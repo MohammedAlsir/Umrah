@@ -33,21 +33,16 @@
                                 {{-- {{ dd($bennficiaries) }} --}}
                                 <div class="form-group">
 
-                                    <div class="col-md-5">
-                                        <label class="control-label " for="name"> الاسم
-                                            <span class="required">*</span>
+                                    <div class="col-md-5" style="margin-bottom:10px">
+                                        <label class="control-label " for="airline_name"> المستفيد
                                         </label>
-                                        <input type="text" name="name" value="{{ $bennficiary->name }}" id="name"
-                                            required="required" class="form-control col-md-7 col-xs-12" value="">
-                                    </div>
-
-                                    <div class="col-md-5">
-                                        <label class="control-label " for="phone"> رقم الهاتف
-                                            <span class="required">*</span>
-                                        </label>
-                                        <input type="text" name="phone" value="{{ $bennficiary->phone }}"
-                                            id="phone" required="required" class="form-control col-md-7 col-xs-12"
-                                            value="">
+                                        <select name="bennficiary" required class="  form-control col-md-7 col-xs-12">
+                                            <option value="">اختر المستفيد</option>
+                                            @foreach ($process as $proces)
+                                                <option {{ $proces->id == $bennficiary->process->id ? 'selected' : '' }}
+                                                    value="{{ $proces->id }}">{{ $proces->beneficiary }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                 </div>
@@ -69,20 +64,15 @@
                             {{-- {{ dd($bennficiaries) }} --}}
                             <div class="form-group">
 
-                                <div class="col-md-5">
-                                    <label class="control-label " for="name"> الاسم
-                                        <span class="required">*</span>
+                                <div class="col-md-5" style="margin-bottom:10px">
+                                    <label class="control-label " for="airline_name"> المستفيد
                                     </label>
-                                    <input type="text" name="name" id="name"
-                                        class="form-control col-md-7 col-xs-12" value="">
-                                </div>
-
-                                <div class="col-md-5">
-                                    <label class="control-label " for="phone"> رقم الهاتف
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input type="text" name="phone" id="phone"
-                                        class="form-control col-md-7 col-xs-12" value="">
+                                    <select name="bennficiary" class="  form-control col-md-7 col-xs-12">
+                                        <option value="">اختر المستفيد</option>
+                                        @foreach ($process as $proces)
+                                            <option value="{{ $proces->id }}">{{ $proces->beneficiary }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                             </div>

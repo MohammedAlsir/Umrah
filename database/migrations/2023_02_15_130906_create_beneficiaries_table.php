@@ -15,8 +15,7 @@ class CreateBeneficiariesTable extends Migration
     {
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('phone')->nullable();
+            $table->foreignId('processe_id')->constrained('processes')->onDelete('cascade');
             $table->foreignId('regiment_id')->constrained('regiments')->onDelete('cascade');
             $table->timestamps();
         });

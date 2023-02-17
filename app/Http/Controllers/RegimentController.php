@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Beneficiary;
 use App\Models\Company;
 use App\Models\Daily_restriction;
+use App\Models\Process;
 use App\Models\Regiment;
 use App\Models\Tree4;
 use App\Traits\Oprations;
@@ -31,12 +32,13 @@ class RegimentController extends Controller
      */
     public function create()
     {
+        $process = Process::select('id', 'beneficiary')->get();
         $trees = Tree4::where('tree3_code', '1203')->orWhere('tree3_code', '1202')->get();
         $companies = Company::all();
         $last_regiment = 1;
         if (Regiment::orderBy('id', 'desc')->first())
             $last_regiment = Regiment::orderBy('id', 'desc')->first()->id + 1;
-        return view('regiment.create', compact('last_regiment', 'companies', 'trees'));
+        return view('regiment.create', compact('last_regiment', 'companies', 'trees', 'process'));
     }
 
     /**
@@ -48,8 +50,7 @@ class RegimentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, array(
-            'list_bennficiary.*.name' => 'required',
-            'list_bennficiary.*.phone' => 'required',
+            'list_bennficiary.*.bennficiary' => 'required',
         ));
         // return $request;
         //Insert
@@ -64,11 +65,9 @@ class RegimentController extends Controller
         $all_request = $request->list_bennficiary;
 
         if ($all_request) {
-
             foreach ($all_request as $item) {
                 $beneficiary = new Beneficiary();
-                $beneficiary->name = $item['name'];
-                $beneficiary->phone = $item['phone'];
+                $beneficiary->processe_id = $item['bennficiary'];
                 $beneficiary->regiment_id = $regiment->id;
                 $beneficiary->save();
             }
@@ -79,7 +78,6 @@ class RegimentController extends Controller
         $daily =  new Daily_restriction();
         $check =  Daily_restriction::orderBy('id', 'DESC')->first();
 
-
         $daily->price = $request->hotel_cost + $request->relay_cost + $request->airline_cost;
         $daily->date = Carbon::now()->Format('Y-m-d');
         $daily->Statement = $request->Statement;
@@ -87,7 +85,6 @@ class RegimentController extends Controller
 
         $daily->Creditor = $request->tree4_code;
         $daily->regiment_id = $regiment->id;
-
 
         if ($check) {
             $daily->registration_number = $check->registration_number + 1;
@@ -98,7 +95,6 @@ class RegimentController extends Controller
         $daily->save();
 
         // end
-
 
         // Session::flash('SUCCESS', 'تم إضافة وكيل  جديد بنجاح');
         toast('تمت الاضافة  بنجاح', 'success');
@@ -126,12 +122,14 @@ class RegimentController extends Controller
      */
     public function edit($id)
     {
+        $process = Process::select('id', 'beneficiary')->get();
+
         $companies = Company::all();
         $trees = Tree4::where('tree3_code', '1203')->orWhere('tree3_code', '1202')->get();
 
         $item = Regiment::find($id);
         $bennficiaries = Beneficiary::where('regiment_id', $item->id)->get();
-        return view('regiment.edit', compact('item', 'companies', 'bennficiaries', 'trees'));
+        return view('regiment.edit', compact('item', 'companies', 'bennficiaries', 'trees', 'process'));
     }
 
     /**
@@ -164,12 +162,10 @@ class RegimentController extends Controller
         }
 
         if ($all_request) {
-
             foreach ($all_request as $item) {
-                if ($item['name'] != '' && $item['phone'] != '') {
+                if ($item['bennficiary'] != '') {
                     $beneficiary = new Beneficiary();
-                    $beneficiary->name = $item['name'];
-                    $beneficiary->phone = $item['phone'];
+                    $beneficiary->processe_id = $item['bennficiary'];
                     $beneficiary->regiment_id = $regiment->id;
                     $beneficiary->save();
                 }
