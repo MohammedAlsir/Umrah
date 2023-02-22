@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent;
 use App\Models\Process;
+use App\Models\Regiment;
 use App\Models\Type_process;
 use App\Models\Visa;
 use Illuminate\Http\Request;
@@ -19,8 +20,6 @@ class ReportController extends Controller
     {
         // return view('reports.index');
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -120,11 +119,7 @@ class ReportController extends Controller
     public function process_post(Request $request)
     {
         if ($request->type == 'all') {
-
-
-
             if ($request->status == 'all') {
-
                 if ($request->agent_id == 'all') {
                     $process = Process::whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
                 } else {
@@ -138,8 +133,6 @@ class ReportController extends Controller
                 }
             }
         } else {
-
-
             if ($request->status == 'all') {
                 if ($request->agent_id == 'all') {
                     $process = Process::where('type_processe_id', $request->type)
@@ -149,7 +142,6 @@ class ReportController extends Controller
                         ->whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
                 }
             } else {
-
                 if ($request->agent_id == 'all') {
                     $process = Process::where('status', $request->status)->where('type_processe_id', $request->type)
                         ->whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
@@ -162,5 +154,28 @@ class ReportController extends Controller
 
         $id = 1;
         return view('reports.process.show', compact('process', 'id'));
+    }
+
+    public function regiment()
+    {
+        $regiments = Regiment::all();
+
+        return view('reports.regiment.index', compact('regiments'));
+    }
+
+    public function regiment_post(Request $request)
+    {
+        $count_0 = Regiment::where('status', '0')->count();
+        $count_1 = Regiment::where('status', '1')->count();
+        if ($request->regiment == 'all') {
+            $regiments = Regiment::all();
+            // $regiments = Regiment::whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+        } else {
+            $regiments = Regiment::where('id', $request->regiment)->get();
+            // $regiments = Regiment::where('id', $request->regiment)->whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+        }
+
+        $id = 1;
+        return view('reports.regiment.show', compact('regiments', 'id', 'count_0', 'count_1'));
     }
 }

@@ -38,12 +38,16 @@
                         </li>
                     @endif
 
-                    <li><a><i class="fa fa-id-card-o"></i> إدارة الافواج <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="{{ route('regiment.index') }}">كل الافواج</a></li>
-                            <li><a href="{{ route('regiment.create') }}">إضافة فوج جديد</a></li>
-                        </ul>
-                    </li>
+                    @if (auth()->user()->regiment_status == 'on')
+                        <li><a><i class="fa fa-id-card-o"></i> إدارة الافواج <span
+                                    class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ route('regiment.index') }}">كل الافواج</a></li>
+                                <li><a href="{{ route('regiment.create') }}">إضافة فوج جديد</a></li>
+                            </ul>
+                        </li>
+                    @endif
+
 
                     {{-- <li><a><i class="fa fa-id-card-o"></i> إدارة المستفيدين <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
@@ -190,7 +194,8 @@
                         <li><a><i class="fa fa-file-text-o"></i>التقارير<span class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
                                 {{-- <li><a href="{{route('reports.visa')}}">تقرير عن التأشيرات </a></li> --}}
-                                <li><a href="{{ route('reports.process') }}">تقرير عن طلبات العمرة </a></li>
+                                <li><a href="{{ route('reports.process') }}">تقرير طلبات العمرة </a></li>
+                                <li><a href="{{ route('reports.regiment') }}">تقرير الافواج </a></li>
                             </ul>
                         </li>
                     @endif

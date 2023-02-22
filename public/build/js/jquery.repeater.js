@@ -202,6 +202,7 @@
                             domElement: domElement,
                         });
                     }
+
                     oldValue = newValue;
                 };
             })();
@@ -902,6 +903,7 @@
                     if (!grouped[p.head]) {
                         grouped[p.head] = [];
                     }
+
                     grouped[p.head].push(p);
                 });
 
@@ -1185,6 +1187,7 @@
                 if (fig.repeaters) {
                     initNested($item);
                 }
+
                 show.call($item.get(0));
             };
 
@@ -1195,6 +1198,13 @@
 
             $filterNested(
                 $self.find("[data-repeater-create]"),
+                fig.repeaters
+            ).click(function () {
+                addItem();
+            });
+
+            $filterNested(
+                $self.find("[data-repeater-create-2]"),
                 fig.repeaters
             ).click(function () {
                 addItem();

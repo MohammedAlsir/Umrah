@@ -148,4 +148,15 @@
             }
         }
     });
+
+    $('.repeater-expenses').repeater({
+        show: function() {
+            $(this).slideDown();
+        },
+        hide: function(deleteElement) {
+            if (confirm('هل تريد حقا حذف هذه التكاليف ')) {
+                $(this).slideUp(deleteElement);
+            }
+        }
+    });
 </script>

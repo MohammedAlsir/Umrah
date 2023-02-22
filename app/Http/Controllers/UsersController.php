@@ -61,6 +61,7 @@ class UsersController extends Controller
         $user->password = Hash::make($request->password);
 
 
+        $user->regiment_status = $request->regiment_status;
         $user->agent_status = $request->agent_status;
         $user->company_status = $request->company_status;
         $user->requirement_status = $request->requirement_status;
@@ -139,6 +140,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
 
+        $user->regiment_status = $request->regiment_status;
         $user->agent_status = $request->agent_status;
         $user->company_status = $request->company_status;
         $user->requirement_status = $request->requirement_status;

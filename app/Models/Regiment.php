@@ -27,4 +27,10 @@ class Regiment extends Model
         return $this->hasOne(Daily_restriction::class, 'regiment_id');
     } // end of daily
 
+    #expenses
+    public function expenses()
+    {
+        return $this->hasMany(ExpensesRegiment::class);
+    } // end of expenses
+
 }

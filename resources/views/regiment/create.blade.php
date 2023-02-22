@@ -17,7 +17,7 @@
         <div class="x_content">
             <br />
 
-            <form class="form repeater-default" method="POST" action="{{ route('regiment.store') }}">
+            <form class="form " method="POST" action="{{ route('regiment.store') }}">
                 @csrf
                 <div class="form-group row" style="margin-bottom: 10px">
                     <div class="col-md-10">
@@ -26,44 +26,49 @@
                         <input type="text" disabled class="form-control col-md-7 col-xs-12" value="{{ $last_regiment }}">
                     </div>
                 </div>
+                <div class="repeater-default">
+                    <div data-repeater-list="list_bennficiary">
+                        <div data-repeater-item>
+                            <div class="row justify-content-between">
 
-                <div data-repeater-list="list_bennficiary">
-                    <div data-repeater-item>
-                        <div class="row justify-content-between">
-
-                            <div class="form-group">
+                                <div class="form-group">
 
 
-                                <div class="col-md-5" style="margin-bottom:10px">
-                                    <label class="control-label " for="airline_name"> المستفيد
-                                    </label>
-                                    <select name="bennficiary" required class="  form-control col-md-7 col-xs-12">
-                                        <option value="">اختر المستفيد</option>
-                                        @foreach ($process as $proces)
-                                            <option value="{{ $proces->id }}">{{ $proces->beneficiary }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="col-md-5" style="margin-bottom:10px">
+                                        <label class="control-label " for="airline_name"> المستفيد
+                                        </label>
+                                        <select name="bennficiary" required class="  form-control col-md-7 col-xs-12">
+                                            <option value="">اختر المستفيد</option>
+                                            @foreach ($process as $proces)
+                                                <option value="{{ $proces->id }}">{{ $proces->beneficiary }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
                                 </div>
-
-
+                                <div class="col-md-1 form-group" style="margin-top:13px">
+                                    <button class="btn btn-danger" data-repeater-delete type="button"> <i
+                                            class="bx bx-x"></i>
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-1 form-group" style="margin-top:13px">
-                                <button class="btn btn-danger" data-repeater-delete type="button"> <i class="bx bx-x"></i>
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
+                            <hr>
                         </div>
-                        <hr>
-                    </div>
 
-                </div>
-                <div class="form-group">
-                    <div class="col p-0">
-                        <button class="btn btn-secondary" data-repeater-create type="button"><i class="bx bx-plus"></i>
-                            اضافة مستفيد جديد
-                        </button>
+                    </div>
+                    <div class="form-group">
+                        <div class="col p-0">
+                            <button class="btn btn-secondary" data-repeater-create-2 type="button"><i
+                                    class="bx bx-plus"></i>
+                                اضافة مستفيد جديد
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+
 
                 <div class="row justify-content-between">
 
@@ -131,6 +136,57 @@
                     </div>
 
 
+
+
+
+                </div>
+
+                <div class="repeater-expenses">
+                    <div data-repeater-list="list_expenses">
+                        <div data-repeater-item>
+                            <div class="row justify-content-between">
+
+                                <div class="form-group">
+
+
+                                    <div class="col-md-5" style="margin-bottom:10px">
+                                        <label class="control-label " for="expenses_name"> الاسم
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="text" name="expenses_name" id="expenses_name"
+                                            required="required" class="form-control col-md-7 col-xs-12" value="">
+                                    </div>
+
+                                    <div class="col-md-5" style="margin-bottom:10px">
+                                        <label class="control-label " for="expenses_cost"> المبلغ
+                                            <span class="required">*</span>
+                                        </label>
+                                        <input type="number" name="expenses_cost" id="expenses_cost"
+                                            required="required" class="form-control col-md-7 col-xs-12" value="">
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-1 form-group" style="margin-top:13px">
+                                    <button class="btn btn-danger" data-repeater-delete type="button"> <i
+                                            class="bx bx-x"></i>
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col p-0">
+                            <button class="btn btn-secondary" data-repeater-create-2 type="button"><i
+                                    class="bx bx-plus"></i>
+                                اضافة تكاليف اضافية
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="ln_solid"></div>

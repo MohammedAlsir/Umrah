@@ -37,11 +37,14 @@ Route::namespace('App\Http\Controllers')->middleware(['auth'])->group(function (
     Route::post('reports-process', 'ReportController@process_post')->name('reports.process.post')->middleware('report_status');
 
 
+    Route::get('reports-regiment', 'ReportController@regiment')->name('reports.regiment')->middleware('report_status');
+    Route::post('reports-regiment', 'ReportController@regiment_post')->name('reports.regiment.post')->middleware('report_status');
+
     Route::resource('users', 'UsersController')->middleware('users_status');
 
     Route::resource('agents', 'AgentsController')->middleware('agent_status');
 
-    Route::resource('regiment', 'RegimentController');
+    Route::resource('regiment', 'RegimentController')->middleware('regiment_status');
 
     // Route::resource('beneficiary', 'BeneficiaryController');
 

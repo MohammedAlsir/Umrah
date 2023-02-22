@@ -78,6 +78,7 @@ class Kernel extends HttpKernel
         'users_status' => \App\Http\Middleware\Users_status::class,
         'report_status' => \App\Http\Middleware\Report::class,
         'setting_status' => \App\Http\Middleware\Setting_status::class,
+        'regiment_status' => \App\Http\Middleware\RegimentStatus::class,
 
 
 

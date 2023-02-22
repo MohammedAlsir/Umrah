@@ -50,6 +50,9 @@ class CreateUsersTable extends Migration
 
             $table->string('dollar_price_status')->nullable()->default('on');
 
+            $table->string('regiment_status')->nullable()->default('on');
+
+
 
 
             $table->rememberToken();

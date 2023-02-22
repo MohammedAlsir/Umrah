@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agent;
 use App\Models\Daily_restriction;
 use App\Models\Process;
+use App\Models\Regiment;
 use App\Models\Ticket;
 use App\Models\Type_process;
 use App\Models\Visa;
@@ -29,6 +30,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $count_0 = Regiment::where('status', '0')->count();
+        $count_1 = Regiment::where('status', '1')->count();
+
         $agent = Agent::count();
         $visa = Visa::count();
         $ok = Process::where('status', 1)->count();
@@ -45,6 +49,8 @@ class HomeController extends Controller
         $process = Process::all();
 
         return view('home', compact(
+            'count_0',
+            'count_1',
             'agent',
             'visa',
             'ok',

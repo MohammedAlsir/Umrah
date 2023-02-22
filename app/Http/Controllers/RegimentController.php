@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Beneficiary;
 use App\Models\Company;
 use App\Models\Daily_restriction;
+use App\Models\ExpensesRegiment;
 use App\Models\Process;
 use App\Models\Regiment;
 use App\Models\Tree4;
@@ -22,7 +23,12 @@ class RegimentController extends Controller
      */
     public function index()
     {
-        return $this->index_data(Regiment::class, "regiment.index");
+        // $collection = Regiment::with(['expenses' => function ($query) {
+        //     $query->sum('cost');
+        // }])->orderBy('id', "DESC")->get();
+        // return $collection;
+        $collection = Regiment::orderBy('id', "DESC")->get();
+        return view("regiment.index", compact("collection"));
     }
 
     /**
@@ -51,6 +57,9 @@ class RegimentController extends Controller
     {
         $this->validate($request, array(
             'list_bennficiary.*.bennficiary' => 'required',
+
+            'list_expenses.*.expenses_name' => 'required',
+            'list_expenses.*.expenses_cost' => 'required',
         ));
         // return $request;
         //Insert
@@ -73,12 +82,26 @@ class RegimentController extends Controller
             }
         }
 
+        $all_request_list_expenses = $request->list_expenses;
+        $cost_expenses = 0;
+
+        if ($all_request_list_expenses) {
+            foreach ($all_request_list_expenses as $item) {
+                $expenses = new ExpensesRegiment();
+                $expenses->name = $item['expenses_name'];
+                $expenses->cost = $item['expenses_cost'];
+                $expenses->regiment_id = $regiment->id;
+                $expenses->save();
+                $cost_expenses += $expenses->cost;
+            }
+        }
+
         // Begin
 
         $daily =  new Daily_restriction();
         $check =  Daily_restriction::orderBy('id', 'DESC')->first();
 
-        $daily->price = $request->hotel_cost + $request->relay_cost + $request->airline_cost;
+        $daily->price = $request->hotel_cost + $request->relay_cost + $request->airline_cost + $cost_expenses;
         $daily->date = Carbon::now()->Format('Y-m-d');
         $daily->Statement = $request->Statement;
         $daily->type = 5;
@@ -128,8 +151,9 @@ class RegimentController extends Controller
         $trees = Tree4::where('tree3_code', '1203')->orWhere('tree3_code', '1202')->get();
 
         $item = Regiment::find($id);
+        $expenses = ExpensesRegiment::where('regiment_id', $id)->get();
         $bennficiaries = Beneficiary::where('regiment_id', $item->id)->get();
-        return view('regiment.edit', compact('item', 'companies', 'bennficiaries', 'trees', 'process'));
+        return view('regiment.edit', compact('item', 'companies', 'bennficiaries', 'trees', 'process', 'expenses'));
     }
 
     /**
@@ -172,11 +196,32 @@ class RegimentController extends Controller
             }
         }
 
+
+        $cost_expenses = 0;
+
+        $all_request_expenses = $request->list_expenses;
+
+        foreach (ExpensesRegiment::where('regiment_id', $id)->get() as $single) {
+            $single->delete();
+        }
+
+        if ($all_request_expenses) {
+            foreach ($all_request_expenses as $item) {
+                if ($item['expenses_name'] != '' && $item['expenses_cost'] != '') {
+                    $expenses = new ExpensesRegiment();
+                    $expenses->name = $item['expenses_name'];
+                    $expenses->cost = $item['expenses_cost'];
+                    $expenses->regiment_id = $regiment->id;
+                    $expenses->save();
+                    $cost_expenses += $expenses->cost;
+                }
+            }
+        }
         // Begin
 
         $daily =  Daily_restriction::where('regiment_id', $id)->first();
 
-        $daily->price = $request->hotel_cost + $request->relay_cost + $request->airline_cost;
+        $daily->price = $request->hotel_cost + $request->relay_cost + $request->airline_cost + $cost_expenses;
         $daily->date = Carbon::now()->Format('Y-m-d');
         $daily->Statement = $request->Statement;
         $daily->Creditor = $request->tree4_code;
@@ -201,6 +246,7 @@ class RegimentController extends Controller
     public function destroy($id)
     {
         $regiment = Regiment::find($id)->delete();
+
         if (Daily_restriction::where('regiment_id', $id)->first()) {
             Daily_restriction::where('regiment_id', $id)->first()->delete();
         }
