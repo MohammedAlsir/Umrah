@@ -196,6 +196,7 @@
                                 {{-- <li><a href="{{route('reports.visa')}}">تقرير عن التأشيرات </a></li> --}}
                                 <li><a href="{{ route('reports.process') }}">تقرير طلبات العمرة </a></li>
                                 <li><a href="{{ route('reports.regiment') }}">تقرير الافواج </a></li>
+                                <li><a href="{{ route('reports.ticket') }}">تقرير التذاكر </a></li>
                             </ul>
                         </li>
                     @endif

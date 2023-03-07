@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Company;
 use App\Models\Process;
 use App\Models\Regiment;
+use App\Models\Ticket;
 use App\Models\Type_process;
 use App\Models\Visa;
 use Illuminate\Http\Request;
@@ -177,5 +179,35 @@ class ReportController extends Controller
 
         $id = 1;
         return view('reports.regiment.show', compact('regiments', 'id', 'count_0', 'count_1'));
+    }
+
+
+    public function ticket()
+    {
+        $companies = Company::all();
+
+        return view('reports.ticket.index', compact('companies'));
+    }
+
+    public function ticket_post(Request $request)
+    {
+        if ($request->company == 'all') {
+            $company = Company::all();
+            // $regiments = Regiment::whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+        } else {
+            $company = Company::where('id', $request->company)->get();
+            // $regiments = Regiment::where('id', $request->regiment)->whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+        }
+
+        $id = 1;
+        return view('reports.ticket.show', compact('company'));
+    }
+
+
+    public function ticket_beneficiary($company_id)
+    {
+        $id = 1;
+        $tickets = Ticket::where('company_id', $company_id)->get();
+        return view('reports.ticket.beneficiary', compact('tickets', 'id'));
     }
 }

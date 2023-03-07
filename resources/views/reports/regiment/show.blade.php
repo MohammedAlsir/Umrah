@@ -73,7 +73,7 @@
                                             @php
                                                 $beneficiaryCount = 0;
                                                 $expensesCount = 0;
-                                                
+
                                             @endphp
                                             @foreach ($regiments as $item)
                                                 @php
@@ -105,46 +105,48 @@
                                         </tbody>
                                     </table>
 
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
+                                    @if ($regiments->count() > 1)
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th> اجمالي الافواج</th>
+                                                        <th> اجمالي الايام</th>
+                                                        <th> اجمالي الافراد </th>
+                                                        <th>تكلفة الفنادق </th>
+                                                        <th>تكلفة الترحيل </th>
+                                                        <th>تكلفة الطيران </th>
+                                                        <th> التكاليف الاضافية </th>
+                                                        <th> الاجمالي الكلي </th>
+                                                        <th> حالة تم السفر </th>
+                                                        <th> حالة لم يتم السفر </th>
+                                                    </tr>
+                                                </thead>
+                                                </tbody>
                                                 <tr>
-                                                    <th> اجمالي الافواج</th>
-                                                    <th> اجمالي الايام</th>
-                                                    <th> اجمالي الافراد </th>
-                                                    <th>تكلفة الفنادق </th>
-                                                    <th>تكلفة الترحيل </th>
-                                                    <th>تكلفة الطيران </th>
-                                                    <th> التكاليف الاضافية </th>
-                                                    <th> الاجمالي الكلي </th>
-                                                    <th> حالة تم السفر </th>
-                                                    <th> حالة لم يتم السفر </th>
+                                                    <td>{{ number_format($regiments->count()) }}</td>
+                                                    <td>{{ number_format($regiments->sum('num_day')) }}</td>
+                                                    <td>{{ number_format($beneficiaryCount) }}</td>
+                                                    <td>{{ number_format($regiments->sum('hotel_cost')) }}</td>
+                                                    <td>{{ number_format($regiments->sum('relay_cost')) }}</td>
+                                                    <td>{{ number_format($regiments->sum('airline_cost')) }}</td>
+                                                    <td>{{ number_format($expensesCount) }}</td>
+                                                    <td>
+                                                        {{ number_format(
+                                                            $regiments->sum('hotel_cost') +
+                                                                $regiments->sum('relay_cost') +
+                                                                $regiments->sum('airline_cost') +
+                                                                (int) $expensesCount,
+                                                        ) }}
+                                                    </td>
+                                                    <td>{{ number_format($count_1) }}</td>
+                                                    <td>{{ number_format($count_0) }}</td>
                                                 </tr>
-                                            </thead>
-                                            </tbody>
-                                            <tr>
-                                                <td>{{ number_format($regiments->count()) }}</td>
-                                                <td>{{ number_format($regiments->sum('num_day')) }}</td>
-                                                <td>{{ number_format($beneficiaryCount) }}</td>
-                                                <td>{{ number_format($regiments->sum('hotel_cost')) }}</td>
-                                                <td>{{ number_format($regiments->sum('relay_cost')) }}</td>
-                                                <td>{{ number_format($regiments->sum('airline_cost')) }}</td>
-                                                <td>{{ number_format($expensesCount) }}</td>
-                                                <td>
-                                                    {{ number_format(
-                                                        $regiments->sum('hotel_cost') +
-                                                            $regiments->sum('relay_cost') +
-                                                            $regiments->sum('airline_cost') +
-                                                            (int) $expensesCount,
-                                                    ) }}
-                                                </td>
-                                                <td>{{ number_format($count_1) }}</td>
-                                                <td>{{ number_format($count_0) }}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
 
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
