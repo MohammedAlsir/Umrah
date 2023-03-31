@@ -66,6 +66,10 @@ class TicketController extends Controller
 
         $ticket->processe_id = $request->processe_id;
 
+        $ticket->cost = $request->cost;
+        $ticket->net = $request->net;
+        $ticket->profit = $request->profit;
+
         $ticket->save();
 
         toast('تم  الحجز بنجاح', 'success');

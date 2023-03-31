@@ -64,7 +64,9 @@
                                                 <th>شركة الطيران</th>
                                                 <th>تكلفة الطيران </th>
                                                 <th> تكاليف اضافية </th>
-                                                <th> الاجمالي </th>
+                                                <th> اجمالي التكاليف </th>
+                                                <th> الايرادات </th>
+                                                <th> الربح / الخسارة </th>
                                                 <th> الحالة </th>
                                                 <th>تاريخ الاضافة</th>
                                             </tr>
@@ -97,6 +99,14 @@
                                                     <td>
                                                         {{ number_format($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost')) }}
                                                     </td>
+
+                                                    <td>
+                                                        {{ number_format($item->revenues) }}
+                                                    </td>
+
+                                                    <td>
+                                                        {{ number_format($item->revenues - ($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost'))) }}
+                                                    </td>
                                                     <td>{{ $item->status == 0 ? 'لم يتم السفر' : 'تم السفر' }}</td>
                                                     <td>{{ $item->created_at }}</td>
                                                 </tr>
@@ -117,7 +127,9 @@
                                                         <th>تكلفة الترحيل </th>
                                                         <th>تكلفة الطيران </th>
                                                         <th> التكاليف الاضافية </th>
-                                                        <th> الاجمالي الكلي </th>
+                                                        <th> الاجمالي الكلي للتكاليف </th>
+                                                        <th> اجمالي الايرادات </th>
+                                                        <th> اجمالي الربح / الخسارة </th>
                                                         <th> حالة تم السفر </th>
                                                         <th> حالة لم يتم السفر </th>
                                                     </tr>
@@ -138,6 +150,15 @@
                                                                 $regiments->sum('airline_cost') +
                                                                 (int) $expensesCount,
                                                         ) }}
+                                                    </td>
+                                                    <td>{{ number_format($regiments->sum('revenues')) }}</td>
+                                                    <td>{{ number_format(
+                                                        $regiments->sum('revenues') -
+                                                            ($regiments->sum('hotel_cost') +
+                                                                $regiments->sum('relay_cost') +
+                                                                $regiments->sum('airline_cost') +
+                                                                (int) $expensesCount),
+                                                    ) }}
                                                     </td>
                                                     <td>{{ number_format($count_1) }}</td>
                                                     <td>{{ number_format($count_0) }}</td>

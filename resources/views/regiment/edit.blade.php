@@ -159,6 +159,16 @@
                             </select>
                         </div>
 
+
+                        <div class="col-md-10" style="margin-bottom:10px">
+                            <label class="control-label " for="revenues"> اجمالي ايرادات الفوج
+                                <span class="required">*</span>
+                            </label>
+                            <input type="number" name="revenues" id="revenues" required="required"
+                                class="form-control col-md-12 col-xs-12" value="{{ $item->revenues }}">
+                        </div>
+
+
                         <div class="col-md-10" style="margin-bottom:10px">
                             <label class="control-label " for="Statement"> البيان
                             </label>

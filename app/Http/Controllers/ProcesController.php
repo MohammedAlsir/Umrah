@@ -89,6 +89,7 @@ class ProcesController extends Controller
 
         $process->total_boundsd = $request->total_boundsd_type;
         $process->status = 0;
+        $process->profit = $request->profit;
 
         // last edit
         // $process->passport_number = $request->passport_number;
@@ -265,6 +266,8 @@ class ProcesController extends Controller
 
 
         $process->total_boundsd = $request->total_boundsd_type;
+
+        $process->profit = $request->profit;
 
         // last edit
         // $process->passport_number = $request->passport_number;

@@ -22,6 +22,9 @@ class CreateRegimentsTable extends Migration
             $table->string('airline_name')->nullable();
             $table->string('airline_cost')->nullable();
             $table->string('status')->default(0);
+
+            $table->string('revenues')->nullable();
+
             $table->timestamps();
         });
     }

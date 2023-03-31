@@ -49,6 +49,8 @@ class CreateProcessesTable extends Migration
 
 
             $table->longText('notes')->nullable();
+            $table->string('profit')->nullable();
+
 
             // Last edit 23/May/2022
             // $table->string('passport_number')->nullable();

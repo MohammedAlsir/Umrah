@@ -19,11 +19,13 @@
                                 <thead>
                                     <tr>
                                         <th>رقم الفوج</th>
-                                        <th>عدد الايام</th>
+                                        {{-- <th>عدد الايام</th> --}}
                                         <th>عدد الافراد </th>
 
                                         <th> تكاليف اضافية </th>
                                         <th> الاجمالي </th>
+                                        <th> الربح / الخسارة </th>
+
                                         <th> الحالة </th>
                                         <th> المزيد </th>
                                         {{-- <th>تاريخ الاضافة</th> --}}
@@ -35,13 +37,17 @@
                                     @foreach ($collection as $item)
                                         <tr>
                                             <td>{{ $item->id }}</td>
-                                            <td>{{ $item->num_day }}</td>
+                                            {{-- <td>{{ $item->num_day }}</td> --}}
                                             <td>{{ $item->beneficiary->count() }}</td>
 
                                             <td>{{ number_format((int) $item->expenses->sum('cost')) }}</td>
 
                                             <td>
                                                 {{ number_format($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost')) }}
+                                            </td>
+
+                                            <td>
+                                                {{ number_format($item->revenues - ($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost'))) }}
                                             </td>
 
                                             @livewire('status-regiment', ['item' => $item], key($item->id))
@@ -130,7 +136,7 @@
                                                                     </label>
                                                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                                                         <input style="width: 100%" disabled type="text"
-                                                                            value="{{ $item->airline_name }}"
+                                                                            value="{{ $item->company ? $item->company->name : '' }}"
                                                                             class="form-control col-md-7 col-xs-12">
                                                                     </div>
                                                                 </div>
@@ -165,6 +171,18 @@
                                                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                                                         <input style="width: 100%" disabled type="text"
                                                                             value="{{ number_format($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost')) }}"
+                                                                            class="form-control col-md-7 col-xs-12">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group container" style="margin-top:5px;">
+                                                                    <label
+                                                                        class="control-label col-md-3 col-sm-3 col-xs-12"
+                                                                        for="last-name"> الربح / الخسارة
+                                                                    </label>
+                                                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                                                        <input style="width: 100%" disabled type="text"
+                                                                            value="{{ number_format($item->revenues - ($item->hotel_cost + $item->relay_cost + $item->airline_cost + (int) $item->expenses->sum('cost'))) }}"
                                                                             class="form-control col-md-7 col-xs-12">
                                                                     </div>
                                                                 </div>

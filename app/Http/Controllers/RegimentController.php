@@ -69,6 +69,9 @@ class RegimentController extends Controller
         $regiment->relay_cost = $request->relay_cost;
         $regiment->airline_name = $request->airline_name;
         $regiment->airline_cost = $request->airline_cost;
+
+        $regiment->revenues = $request->revenues;
+
         $regiment->save();
 
         $all_request = $request->list_bennficiary;
@@ -177,6 +180,9 @@ class RegimentController extends Controller
         $regiment->relay_cost = $request->relay_cost;
         $regiment->airline_name = $request->airline_name;
         $regiment->airline_cost = $request->airline_cost;
+
+        $regiment->revenues = $request->revenues;
+
         $regiment->save();
 
         $all_request = $request->list_bennficiary;

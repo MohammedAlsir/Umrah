@@ -22,6 +22,13 @@ class CreateTicketsTable extends Migration
             $table->string('status')->nullable();
             $table->string('price')->nullable();
 
+            $table->string('cost')->nullable();
+            $table->string('net')->nullable();
+            $table->string('profit')->nullable();
+
+
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
