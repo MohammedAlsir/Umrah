@@ -37,6 +37,7 @@ class AdminSeed extends Seeder
         $user->setting_status = 'on';
 
         $user->dollar_price_status = 'on';
+        $user->type = 1;
 
 
 

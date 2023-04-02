@@ -8,6 +8,7 @@ use App\Models\Process;
 use App\Models\Regiment;
 use App\Models\Ticket;
 use App\Models\Type_process;
+use App\Models\User;
 use App\Models\Visa;
 use Illuminate\Http\Request;
 
@@ -185,29 +186,48 @@ class ReportController extends Controller
     public function ticket()
     {
         $companies = Company::all();
+        $users = User::all();
 
-        return view('reports.ticket.index', compact('companies'));
+        return view('reports.ticket.index', compact('companies', 'users'));
     }
 
     public function ticket_post(Request $request)
     {
         if ($request->company == 'all') {
-            $company = Company::all();
-            // $regiments = Regiment::whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+            // $company = Company::all();
+            if ($request->users == 'all') {
+                $tikets = Ticket::all()->groupBy('company_id');
+            } else {
+                $tikets = Ticket::where('user_id', $request->users)->get()->groupBy('company_id');
+            }
         } else {
-            $company = Company::where('id', $request->company)->get();
-            // $regiments = Regiment::where('id', $request->regiment)->whereDate('created_at', '>=', $request->start)->whereDate('created_at', '<=', $request->end)->get();
+            // $company = Company::where('id', $request->company)->get();
+            if ($request->users == 'all') {
+                $tikets = Ticket::where('company_id', $request->company)->get()->groupBy('company_id');
+            } else {
+                $tikets = Ticket::where('user_id', $request->users)->where('company_id', $request->company)->get()->groupBy('company_id');
+            }
         }
 
+
+
+        // return
+        // dd($tikets);
         $id = 1;
-        return view('reports.ticket.show', compact('company'));
+        $user_id = $request->users;
+        return view('reports.ticket.show', compact('tikets', 'id', 'user_id'));
     }
 
 
-    public function ticket_beneficiary($company_id)
+    public function ticket_beneficiary($company_id, $user_id)
     {
         $id = 1;
-        $tickets = Ticket::where('company_id', $company_id)->get();
+        if ($user_id != "all") {
+            $tickets = Ticket::where('user_id', $user_id)->where('company_id', $company_id)->get();
+        } else {
+            $tickets = Ticket::where('company_id', $company_id)->get();
+        }
+
         return view('reports.ticket.beneficiary', compact('tickets', 'id'));
     }
 }

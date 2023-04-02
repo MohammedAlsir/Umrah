@@ -61,6 +61,7 @@
                                                 <th> رقم التأشيرة</th>
                                                 <th> الحالة</th>
                                                 <th>السعر</th>
+                                                <th>المستخدم</th>
                                             </tr>
                                         </thead>
 
@@ -74,6 +75,7 @@
                                                     <td>{{ $item->visa_number }}</td>
                                                     <td>{{ $item->status }}</td>
                                                     <td>{{ $item->price }}</td>
+                                                    <td>{{ $item->user->name }}</td>
 
                                                 </tr>
                                             @endforeach

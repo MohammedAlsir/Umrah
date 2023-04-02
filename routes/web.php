@@ -43,7 +43,7 @@ Route::namespace('App\Http\Controllers')->middleware(['auth'])->group(function (
 
     Route::get('reports-ticket', 'ReportController@ticket')->name('reports.ticket')->middleware('report_status');
     Route::post('reports-ticket', 'ReportController@ticket_post')->name('reports.ticket.post')->middleware('report_status');
-    Route::get('reports-ticket-beneficiary/{id}', 'ReportController@ticket_beneficiary')->name('reports.ticket.beneficiary')->middleware('report_status');
+    Route::get('reports-ticket-beneficiary/{id}/{user_id}', 'ReportController@ticket_beneficiary')->name('reports.ticket.beneficiary')->middleware('report_status');
 
     Route::resource('users', 'UsersController')->middleware('users_status');
 

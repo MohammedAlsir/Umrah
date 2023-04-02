@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Process;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -69,6 +70,7 @@ class TicketController extends Controller
         $ticket->cost = $request->cost;
         $ticket->net = $request->net;
         $ticket->profit = $request->profit;
+        $ticket->user_id = Auth::user()->id;
 
         $ticket->save();
 

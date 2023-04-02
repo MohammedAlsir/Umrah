@@ -63,16 +63,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($company as $index => $item)
-                                                <tr>
-                                                    <td>{{ ++$index }}</td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td>{{ $item->tickets->count() }}</td>
-                                                    <td><a
-                                                            href="{{ route('reports.ticket.beneficiary', $item->id) }}">المستفيدين</a>
-                                                    </td>
+                                            @foreach ($tikets as $tiket)
+                                                @foreach ($tiket as $item)
+                                                    @if ($loop->first)
+                                                        <tr>
+                                                            <td>{{ $id++ }}</td>
+                                                            <td>{{ $item->company->name }}</td>
+                                                            <td>{{ $tiket->count() }}</td>
+                                                            <td><a
+                                                                    href="{{ route('reports.ticket.beneficiary', [$item->company->id, $user_id]) }}">المستفيدين</a>
+                                                            </td>
 
-                                                </tr>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
                                             @endforeach
 
                                         </tbody>
